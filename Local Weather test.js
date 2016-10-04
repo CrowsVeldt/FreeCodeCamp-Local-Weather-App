@@ -1,4 +1,4 @@
-//TODO Change the API request to a Geolocation request 
+//TODO Change the API request to a Geolocation request
 
 $(document).ready(function(){
 
@@ -6,17 +6,18 @@ $.ajaxSetup({ cache: false });
 
   //variables to store the visitors latitude and longitude
 var lat = "";
-var lon = "";
+var lon  = "";
 var cels = 0;
 var fahr = 0;
 
-  //Get the visitors lat and lon and store them to the variables. This actually gets their IP's location, so it's not necessarily accurate
-$.getJSON("https://ip-api.com/json", function(data) {
-    lat = data["lat"];
-    lon = data["lon"];
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(function(position) {
+
+    lat = position.coords.latitude;
+    lon = position.coords.longitude;
 
  // add the visitors lat and lon to an api call to openweather
-  var link =   "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&APPID=312986e3f1efaf26b7621838c022de56";
+  var link =   "http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&APPID=312986e3f1efaf26b7621838c022de56";
 
   //call the getWather function to get the weather, to make sure that the api only gets called once the visitors lat and lon are known
   getWeather(link);
@@ -34,6 +35,8 @@ $("#temp-btn").click(function(){
 });
 
 });
+
+}
 
   //get the weather data, extract the bits we want, and add them to the DOM
 function getWeather (link){
