@@ -11,7 +11,7 @@ var cels = 0;
 var fahr = 0;
 
   //Get the visitors lat and lon and store them to the variables. This actually gets their IP's location, so it's not necessarily accurate
-$.getJSON("http://ip-api.com/json", function(data) {
+$.getJSON("https://ip-api.com/json", function(data) {
     lat = data["lat"];
     lon = data["lon"];
 
