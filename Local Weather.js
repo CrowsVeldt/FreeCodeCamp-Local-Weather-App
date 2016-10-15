@@ -16,7 +16,7 @@ $.getJSON("https://ip-api.com/json", function(data) {
     lon = data["lon"];
 
  // add the visitors lat and lon to an api call to openweather
-  var link =   "http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&APPID=312986e3f1efaf26b7621838c022de56";
+  var link =   "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&APPID=312986e3f1efaf26b7621838c022de56";
 
   //call the getWather function to get the weather, to make sure that the api only gets called once the visitors lat and lon are known
   getWeather(link);
