@@ -1,8 +1,7 @@
 window.onload = weather
 
-let cels = 0;
-let fahr = 0;
-let current = 0;
+let temp = 0;
+let tempToggle = 0;
   
 function weather () { 
   
@@ -18,20 +17,9 @@ function weather () {
   });
 }
 
-$("#temp-btn").click(function(){
-  if (current === 0){
-    $(".temp").html(`<h3 class='cels'> ${Math.round(cels)} °C</h3>`);
-    current = 1;
-  } else if (current === 1){
-    $(".temp").html(`<h3 class='fahr'> ${Math.round(fahr)} °F</h3>`);
-    current = 0; }
-});
-
 function displayWeather (data) {
-  const temp = JSON.stringify(data["main"]["temp"]);
-  cels = temp - 273.15;
-  fahr = (temp * (9/5)) -459.67;
-  $(".temp").html(`<h3 class='fahr'> ${Math.round(fahr)} °F</h3>`);
+  temp = JSON.stringify(data["main"]["temp"]);
+  $(".temp").html(`<h3 class='fahr'> ${Math.round(convertTemperature('fahr', temp))} °F</h3>`);
 
   const weather = (data["weather"][0]["description"]);
   $(".weather").html(`<h3> ${weather} </h3>`);
@@ -41,9 +29,24 @@ function displayWeather (data) {
 
   $(".location").html(`<h3>${city}, ${country}</h3>`);
 
-  const iconURL = `http://openweathermap.org/img/w/${data["weather"][0]["icon"]}.png`;
+  const weatherIcon = `<img src='http://openweathermap.org/img/w/${data["weather"][0]["icon"]}.png' alt='Weather Icon'>`;
 
-  const html = `<img src='${iconURL}' alt='Weather Icon'>`;
-
-  $(".weather-icon").html(html);
+  $(".weather-icon").html(weatherIcon);
 }
+
+function convertTemperature (scale, temp) {
+  return scale === 'cels' ? 
+    temp - 273.15 :
+    scale === 'fahr' ?
+    (temp * (9/5)) -459.67 :
+    null
+}
+
+$("#temp-btn").click(function(){
+  if (tempToggle === 0){
+    $(".temp").html(`<h3 class='cels'> ${Math.round(convertTemperature('cels', temp))} °C</h3>`);
+    tempToggle = 1;
+  } else if (tempToggle === 1){
+    $(".temp").html(`<h3 class='fahr'> ${Math.round(convertTemperature('fahr', temp))} °F</h3>`);
+    tempToggle = 0; }
+});
