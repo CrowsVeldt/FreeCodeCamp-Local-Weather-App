@@ -32,39 +32,29 @@ navigator.geolocation.getCurrentPosition(position => {
 
 });
 
-function displayWeather (link){
-   $.getJSON(link, function(data){
+  function displayWeather (link) {
+    $.getJSON(link, function(data) {
 
-     //get the temprature in Kelvin and convert it to Fahrenheit and Celsius, remember to round them before displaying
-     var temp = JSON.stringify(data["main"]["temp"]);
-        cels = temp - 273.15;
-        fahr = (temp * (9/5)) -459.67;
-       $(".temp").html(`<h3 class='fahr'> ${Math.round(fahr)} °F</h3>`);
+       //get the temprature in Kelvin and convert it to Fahrenheit and Celsius, remember to round them before displaying
+      const temp = JSON.stringify(data["main"]["temp"]);
+      cels = temp - 273.15;
+      fahr = (temp * (9/5)) -459.67;
+      $(".temp").html(`<h3 class='fahr'> ${Math.round(fahr)} °F</h3>`);
 
+      const weather = (data["weather"][0]["description"]);
+      $(".weather").html(`<h3> ${weather} </h3>`);
 
-      //Weather is lowercase, let's change this up
-     var weather = (data["weather"][0]["description"]);
-        $(".weather").html(`<h3> ${weather} </h3>`);
+      const city = data["name"];
+      const country = data["sys"]["country"];
 
-     //name and country,  maybe expand the country code to the full name
-     var city =(data["name"]);
-     var country =(data["sys"]["country"]);
+      $(".location").html(`<h3>${city}, ${country}</h3>`);
 
-     $(".location").html(`<h3>${city}, ${country}</h3>`);
+      const iconURL = `http://openweathermap.org/img/w/${data["weather"][0]["icon"]}.png`;
 
-     //find and display an icon for the weather
-     var icon = data["weather"][0]["icon"];
+      const html = `<img src='${iconURL}' alt='Weather Icon'>`;
 
-     var iconURL = `http://openweathermap.org/img/w/${icon}.png`;
+      $(".weather-icon").html(html);
 
-     var html = `<img src='${iconURL}' alt='Weather Icon'>`;
-
-     $(".weather-icon").html(html);
-
-
-
- });
-
-}
-
+    });
+  }
 });
