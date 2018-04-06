@@ -4,7 +4,6 @@ let temp = 0;
 let tempToggle = 0;
   
 function weather () { 
-  
   $.ajaxSetup({ cache: false });
 
   navigator.geolocation.getCurrentPosition(position => { 
@@ -19,18 +18,14 @@ function weather () {
 
 function displayWeather (data) {
   temp = JSON.stringify(data["main"]["temp"]);
-  $(".temp").html(`<h3 class='fahr'> ${Math.round(convertTemperature('fahr', temp))} °F</h3>`);
-
   const weather = (data["weather"][0]["description"]);
-  $(".weather").html(`<h3> ${weather} </h3>`);
-
   const city = data["name"];
   const country = data["sys"]["country"];
-
-  $(".location").html(`<h3>${city}, ${country}</h3>`);
-
   const weatherIcon = `<img src='http://openweathermap.org/img/w/${data["weather"][0]["icon"]}.png' alt='Weather Icon'>`;
 
+  $(".temp").html(`<h3 class='fahr'> ${Math.round(convertTemperature('fahr', temp))} °F</h3>`);
+  $(".weather").html(`<h3> ${weather} </h3>`);
+  $(".location").html(`<h3>${city}, ${country}</h3>`);
   $(".weather-icon").html(weatherIcon);
 }
 
